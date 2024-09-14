@@ -103,8 +103,7 @@ def train_one_step(epoch,optimizer,optimizer_disc, model, disc_model, trainloade
         # only update discriminator with probability from paper (configure)
         optimizer_disc.zero_grad()
         train_discriminator = torch.BoolTensor([config.model.train_discriminator 
-                               and epoch >= config.lr_scheduler.warmup_epoch 
-                               and random.random() < float(eval(config.model.train_discriminator))]).cuda()
+                               and epoch >= config.lr_scheduler.warmup_epoch]).cuda()
         # fix https://github.com/ZhikangNiu/encodec-pytorch/issues/30
         if dist.is_initialized():
             dist.broadcast(train_discriminator, 0)
