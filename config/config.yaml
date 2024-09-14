@@ -7,9 +7,9 @@ common:
   amp: False
 
 datasets:
-  train_csv_path: '/mnt/lustre/sjtu/home/zkn02/train_encodec/datasets/libritts_train100h.csv'
-  test_csv_path: '/mnt/lustre/sjtu/home/zkn02/train_encodec/datasets/LibriTTS_dev-other.csv'
-  batch_size: 12
+  train_csv_path: '/kaggle/working/train.txt'
+  test_csv_path: '/kaggle/working/test.txt'
+  batch_size: 4
   tensor_cut: 72000
   num_workers: 4
   fixed_length: 0
@@ -23,11 +23,11 @@ checkpoint:
   save_location: '${checkpoint.save_folder}/bs${datasets.batch_size}_cut${datasets.tensor_cut}_length${datasets.fixed_length}_' 
 
 optimization:
-  lr: 3e-4
-  disc_lr: 3e-4
+  lr: 5e-5
+  disc_lr: 5e-5
 
 lr_scheduler:
-  warmup_epoch: 5
+  warmup_epoch: 10
 
 model:
   target_bandwidths: [1.5, 3., 6., 12., 24.]
@@ -46,7 +46,7 @@ model:
   name: 'my_encodec'
 
 distributed:
-  data_parallel: True
+  data_parallel: False
   world_size: 4
   find_unused_parameters: False
   torch_distributed_debug: False
