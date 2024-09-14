@@ -15,10 +15,15 @@ from utils import convert_audio
 class CustomAudioDataset(torch.utils.data.Dataset):
     def __init__(self, config, transform=None,mode='train'):
         assert mode in ['train', 'test'], 'dataset mode must be train or test'
+
         if mode == 'train':
-            self.audio_files = pd.read_csv(config.datasets.train_csv_path,on_bad_lines='skip')
+            with open(config.datasets.train_csv_path, "r") as f:
+                self.audio_files = [l.strip() for l in f.readlines()]
         elif mode == 'test':
-            self.audio_files = pd.read_csv(config.datasets.test_csv_path,on_bad_lines='skip',)
+            with open(config.datasets.test_csv_path, "r") as f:
+                self.audio_files = [l.strip() for l in f.readlines()]
+        
+        self.audio_files = self.audio_files[:256]
         self.transform = transform
         self.fixed_length = config.datasets.fixed_length
         self.tensor_cut = config.datasets.tensor_cut
@@ -34,17 +39,12 @@ class CustomAudioDataset(torch.utils.data.Dataset):
             raise StopIteration
         if idx is None:
             idx = random.randrange(len(self))
-        try:
-            logger.debug(f'Loading {self.audio_files.iloc[idx, :].values[0]}')
-            waveform, sample_rate = librosa.load(
-                self.audio_files.iloc[idx, :].values[0], 
-                sr=self.sample_rate,
-                mono=self.channels == 1
-            )
-        except (audioread.exceptions.NoBackendError, ZeroDivisionError):
-            logger.warning(f"Not able to load {self.audio_files.iloc[idx, :].values[0]}, removing from dataset")
-            self.audio_files.drop(idx, inplace=True)
-            return self[idx]
+        # logger.debug(f'Loading {self.audio_files[idx].values[0]}')
+        waveform, sample_rate = librosa.load(
+            self.audio_files[idx], 
+            sr=self.sample_rate,
+            mono=self.channels == 1
+        )
 
         # add channel dimension IF loaded audio was mono
         waveform = torch.as_tensor(waveform)
