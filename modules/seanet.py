@@ -7,7 +7,6 @@
 """Encodec SEANet-based encoder and decoder implementation."""
 
 import typing as tp
-
 import numpy as np
 import torch.nn as nn
 
@@ -142,6 +141,7 @@ class SEANetEncoder(nn.Module):
 
     def forward(self, x):
         return self.model(x)
+                
 
 
 class SEANetDecoder(nn.Module):

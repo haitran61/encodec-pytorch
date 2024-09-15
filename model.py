@@ -105,7 +105,7 @@ class EncodecModel(nn.Module):
         self.bits_per_codebook = int(math.log2(self.quantizer.bins))
         assert 2 ** self.bits_per_codebook == self.quantizer.bins, \
             "quantizer bins must be a power of 2."
-
+    
     @property
     def segment_length(self) -> tp.Optional[int]:
         if self.segment is None:
@@ -336,7 +336,7 @@ class EncodecModel(nn.Module):
         channels = 1
         model = EncodecModel._get_model(
                 target_bandwidths, sample_rate, channels,
-                causal=False, model_norm='time_group_norm', audio_normalize=True,
+                causal=True, model_norm='weight_norm', audio_normalize=True,
                 segment=None, name='my_encodec',ratios=ratios)
         pre_dic = torch.load(checkpoint)['model_state_dict']
         model.load_state_dict({k.replace('quantizer.model','quantizer.vq'):v for k,v in pre_dic.items()})
