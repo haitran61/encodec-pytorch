@@ -290,7 +290,7 @@ class EncodecModel(nn.Module):
         if repository:
             assert pretrained
         target_bandwidths = [1.5, 3., 6, 12., 24.]
-        checkpoint_name = 'encodec_24khz-d7cc33bc.th'
+        checkpoint_name = 'encodec_libritts960h_batch12_cut100000_epoch20_lr0.0001.pt'
         sample_rate = 24_000
         channels = 1
         model = EncodecModel._get_model(
@@ -336,7 +336,7 @@ class EncodecModel(nn.Module):
         channels = 1
         model = EncodecModel._get_model(
                 target_bandwidths, sample_rate, channels,
-                causal=True, model_norm='weight_norm', audio_normalize=True,
+                causal=False, model_norm='time_group_norm', audio_normalize=True,
                 segment=None, name='my_encodec',ratios=ratios)
         pre_dic = torch.load(checkpoint)['model_state_dict']
         model.load_state_dict({k.replace('quantizer.model','quantizer.vq'):v for k,v in pre_dic.items()})

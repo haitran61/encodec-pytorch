@@ -123,4 +123,4 @@ Thanks to the following repositories:
 
 ## LICENSE
 The code is same as [encodec](https://github.com/facebookresearch/encodec) LICENSE.
-
+encodec_libritts960h_batch12_cut100000_epoch20_lr0.0001.pt

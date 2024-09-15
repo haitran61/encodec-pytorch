@@ -2,15 +2,15 @@ common:
   save_interval: 2
   test_interval: 5
   log_interval: 50
-  max_epoch: 175
+  max_epoch: 100
   seed: 3401
   amp: False
 
 datasets:
   train_csv_path: '/kaggle/working/train.txt'
   test_csv_path: '/kaggle/working/test.txt'
-  batch_size: 4
-  tensor_cut: 72000
+  batch_size: 12
+  tensor_cut: 100000
   num_workers: 4
   fixed_length: 0
   pin_memory: True
@@ -23,8 +23,8 @@ checkpoint:
   save_location: '${checkpoint.save_folder}/bs${datasets.batch_size}_cut${datasets.tensor_cut}_length${datasets.fixed_length}_' 
 
 optimization:
-  lr: 5e-5
-  disc_lr: 5e-5
+  lr: 3e-4
+  disc_lr: 3e-4
 
 lr_scheduler:
   warmup_epoch: 10
