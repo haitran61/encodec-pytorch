@@ -9,8 +9,8 @@ common:
 datasets:
   train_csv_path: '/kaggle/working/train.txt'
   test_csv_path: '/kaggle/working/test.txt'
-  batch_size: 12
-  tensor_cut: 100000
+  batch_size: 8
+  tensor_cut: 72000
   num_workers: 4
   fixed_length: 0
   pin_memory: True
