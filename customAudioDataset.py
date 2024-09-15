@@ -24,6 +24,10 @@ class CustomAudioDataset(torch.utils.data.Dataset):
                 self.audio_files = [l.strip() for l in f.readlines()]
         
         self.audio_files = self.audio_files[:256]
+
+        for f in self.audio_files:
+            print(f)
+    
         self.transform = transform
         self.fixed_length = config.datasets.fixed_length
         self.tensor_cut = config.datasets.tensor_cut
